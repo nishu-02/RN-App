@@ -26,8 +26,13 @@ SECRET_KEY = 'django-insecure-()*x$%b96ae%9y&_oa9d(3vt+2qszf+w%+i+2tv&ezup%aa+tt
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.4','192.168.1.3','127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.154.220']
+# CORS_ALLOW_ALL_ORIGINS = True
+
+# CORS settings
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+
 
 
 # Application definition
@@ -41,9 +46,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'Mach2',
+    'rest_framework',
+    'Mach1'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # This must be at the top
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -51,8 +59,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'hadnt.urls'
 
@@ -73,6 +81,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'hadnt.wsgi.application'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
 
 
 # Database
@@ -120,7 +134,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
